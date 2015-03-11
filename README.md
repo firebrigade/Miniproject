@@ -14,3 +14,5 @@ After having cloned the repository to your disk you have to follow these few ste
 8. Select your operating system and click OK until you get back to the default eclipse window.
 9. Press play to check it it works.
 10. Now, you can start making your own game.
+
+Stuff
