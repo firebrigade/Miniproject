@@ -4,7 +4,7 @@ package example;
 public class Block {
 public boolean [][] form = new boolean [4][4];
 public short positionX = 0;
-public int positionY = 5;
+public int positionY = 0;
 public int typeOfBlock = 0;
 
 Block(int tempType){
