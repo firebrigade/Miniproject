@@ -8,21 +8,21 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
-
+import org.newdawn.slick.Color;
 import java.util.Random;
 
 public class SimpleSlickGame extends BasicGame
 {
 	public boolean tetrisOver = false;
-	public boolean [][] blockMatrix = new boolean [10][20];
+	public boolean [][] blockMatrix = new boolean [10][24];
 	public int points = 0;
 	public int typeOfNextBlock = 0;
 	public boolean tetrisPause = false;
 	public Block current = new Block(2);
 	public Block nextBlock = new Block(2);
 	public Timer timer = new Timer(2);
-	public int gamePositionX = 50;
-	public int gamePositionY = 10;
+	public int gamePositionX = 300;
+	public int gamePositionY = 50;
 	public int guiPanelX = 500;
 	public int guiPanelY = 15;
 	public Random getRandomNumber = new Random();
@@ -37,6 +37,7 @@ public class SimpleSlickGame extends BasicGame
 		timer.start();
 		typeOfNextBlock = getRandomNumber.nextInt(7);
 		nextBlock = new Block(typeOfNextBlock);
+		current = new Block(1);
 	}
 
 	@Override
@@ -48,7 +49,7 @@ public class SimpleSlickGame extends BasicGame
 		
 		if(tetrisPause == false){
 		if(timer.triggering() == true){
-			if(5 < current.positionY || checkLine() == false){
+			if(18 < current.positionY || checkLine() == false){
 			current = new Block(typeOfNextBlock);
 			typeOfNextBlock = getRandomNumber.nextInt(7);
 			nextBlock = new Block(typeOfNextBlock);
@@ -83,15 +84,22 @@ public class SimpleSlickGame extends BasicGame
 			g.drawString(current.form[3][0]+" "+current.form[3][1]+" "+current.form[3][2]+" "+current.form[3][3], 200, 350);
 			*/
 		
+		
+		//BACKGROUND
+		g.setColor(new Color(255,140,0));
+		g.fillRect(gamePositionX,gamePositionY, 110, 220);
+		g.setColor(new Color(255,255,255));
+		
+		
 			for(int x=0; x < 10; x++){
-				for(int y=0; y< 20; y++){
+				for(int y=0; y< 24; y++){
 					if(blockMatrix[x][y] == true){
 			g.fillRect(gamePositionX+ x*11, gamePositionY+y*11, 10, 10);
 					}
 				}
 			}
 			
-			
+			g.setColor(new Color(255,140,0));
 			//GUI PANEL
 			g.drawString("Points: "+points, guiPanelX, guiPanelY);
 			g.drawString("Next shape:", guiPanelX, guiPanelY+40);
@@ -102,6 +110,7 @@ public class SimpleSlickGame extends BasicGame
 					}
 				}
 			}
+			g.setColor(new Color(255,255,255));
 			
 
 	}
@@ -111,7 +120,7 @@ public class SimpleSlickGame extends BasicGame
 		try
 		{
 			AppGameContainer appgc;
-			appgc = new AppGameContainer(new SimpleSlickGame("Simple Slick Game"));
+			appgc = new AppGameContainer(new SimpleSlickGame("Tetris"));
 			appgc.setDisplayMode(640, 480, false);
 			appgc.start();
 		}
@@ -149,7 +158,7 @@ public class SimpleSlickGame extends BasicGame
 	if(tempResult == true){
 		boolean [][] temp = blockMatrix;
 		for(int x = 0; x<10; x++){
-			for(int y = 0; y < 20; y++){
+			for(int y = 0; y < 24; y++){
 				blockMatrix[x][y+1]=temp[x][y];
 			}
 		}
