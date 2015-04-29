@@ -159,7 +159,7 @@ void rotate(){
 	}
 	break;
 		
-	case 2: //Block 2 - Reverse L shape
+	case 2: //Block 2 - Reverse L shape - Done
 	switch(rotationNumber){
 		
 		case 0:
@@ -169,22 +169,22 @@ void rotate(){
 		form [2][3] = true;
 		break;
 		case 1:
-		form [2][0] = true;
+		form [1][1] = true;
 		form [2][1] = true;
 		form [2][2] = true;
 		form [2][3] = true;
 		break;
 		case 2:
+		form [0][2] = true;
+		form [1][2] = true;
+		form [2][2] = true;
 		form [0][3] = true;
-		form [1][3] = true;
-		form [2][3] = true;
-		form [3][3] = true;
 		break;
 		case 3:
-		form [2][0] = true;
-		form [2][1] = true;
-		form [2][2] = true;
-		form [2][3] = true;
+		form [0][1] = true;
+		form [0][2] = true;
+		form [0][3] = true;
+		form [1][3] = true;
 		break;
 
 	}
@@ -221,7 +221,7 @@ void rotate(){
 	}
 	break;
 		
-	case 4: //Block 4 - S shape
+	case 4: //Block 4 - S shape - Done
 	switch(rotationNumber){
 	
 		case 0:
@@ -231,20 +231,20 @@ void rotate(){
 		form [1][3] = true;
 		break;
 		case 1:
-		form [2][0] = true;
-		form [2][1] = true;
+		form [1][1] = true;
+		form [1][2] = true;
 		form [2][2] = true;
 		form [2][3] = true;
 		break;
 		case 2:
+		form [1][2] = true;
+		form [2][2] = true;
 		form [0][3] = true;
 		form [1][3] = true;
-		form [2][3] = true;
-		form [3][3] = true;
 		break;
 		case 3:
-		form [2][0] = true;
-		form [2][1] = true;
+		form [1][1] = true;
+		form [1][2] = true;
 		form [2][2] = true;
 		form [2][3] = true;
 		break;
@@ -252,7 +252,7 @@ void rotate(){
 	}
 	break;
 		
-	case 5: //Block 5 - Z shape
+	case 5: //Block 5 - Z shape - Done
 	switch(rotationNumber){
 		
 		case 0:
@@ -262,22 +262,22 @@ void rotate(){
 		form [2][3] = true;
 		break;
 		case 1:
-		form [2][0] = true;
 		form [2][1] = true;
 		form [2][2] = true;
-		form [2][3] = true;
+		form [1][2] = true;
+		form [1][3] = true;
 		break;
 		case 2:
-		form [0][3] = true;
+		form [0][2] = true;
+		form [1][2] = true;
 		form [1][3] = true;
 		form [2][3] = true;
-		form [3][3] = true;
 		break;
 		case 3:
-		form [2][0] = true;
 		form [2][1] = true;
 		form [2][2] = true;
-		form [2][3] = true;
+		form [1][2] = true;
+		form [1][3] = true;
 		break;
 	
 	}

@@ -1,7 +1,6 @@
 package example;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -27,6 +26,7 @@ public class SimpleSlickGame extends BasicGame
 	public int guiPanelY = 15;
 	public Random getRandomNumber = new Random();
 	
+	
 	public SimpleSlickGame(String gamename)
 	{
 		super(gamename);
@@ -37,7 +37,8 @@ public class SimpleSlickGame extends BasicGame
 		timer.start();
 		typeOfNextBlock = getRandomNumber.nextInt(7);
 		nextBlock = new Block(typeOfNextBlock);
-		current = new Block(1);
+		current = new Block(5);
+		current.rotate();
 	}
 
 	@Override
