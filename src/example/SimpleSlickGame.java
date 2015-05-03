@@ -230,7 +230,7 @@ public class SimpleSlickGame extends BasicGame
 	}
 	
 	public void checkFinishedLine(){
-	
+	int row = 0;
 		for(int y=0; y<24; y++){
 		boolean tempResult = true;
 	for(int x=0; x<10; x++){
@@ -240,16 +240,26 @@ public class SimpleSlickGame extends BasicGame
 	}
 	
 	if(tempResult == true){
-		boolean [][] temp = blockMatrix;
-		for(int x = 0; x<10; x++){
-			for(int tempy = 0; tempy < y; tempy++){
-				blockMatrix[x][tempy+1]=temp[x][tempy];
+		row = y;
+		System.out.println(row);
+		points = points + 10;
+		boolean [][] blockMatrix2 = new boolean[10][24];
+		for(int tmpx = 0; tmpx<10;tmpx++){
+			for(int tmpy = 0; tmpy<24; tmpy++){
+				blockMatrix2[tmpx][tmpy] = blockMatrix [tmpx][tmpy];
 			}
 		}
-		points = points + 10;
-		checkFinishedLine();
+		
+		for(int tempy = 0; tempy < row; tempy++){
+			for(int x = 0; x<10; x++){
+			blockMatrix[x][tempy+1]= blockMatrix2[x][tempy];
+		}
 	}
 		}
+		
+		
+	}
+	
 	
 	}
 
