@@ -1,6 +1,7 @@
 package example;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -8,6 +9,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Input;
+
 import java.util.Random;
 
 public class SimpleSlickGame extends BasicGame
@@ -20,12 +23,14 @@ public class SimpleSlickGame extends BasicGame
 	public Block current = new Block(2);
 	public Block nextBlock = new Block(2);
 	public Timer timer = new Timer(2);
+	public Timer keyTime = new Timer(0.5);
 	public int gamePositionX = 300;
 	public int gamePositionY = 50;
 	public int guiPanelX = 500;
 	public int guiPanelY = 15;
 	public Random getRandomNumber = new Random();
 	
+	public Input input = new Input(480);
 	
 	public SimpleSlickGame(String gamename)
 	{
@@ -35,36 +40,43 @@ public class SimpleSlickGame extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		timer.start();
+		keyTime.start();
 		typeOfNextBlock = getRandomNumber.nextInt(7);
 		nextBlock = new Block(typeOfNextBlock);
-		current = new Block(5);
-		current.rotate();
+		current = new Block(0);
+		
+		
+		
 	}
 
 	@Override
-	public void update(GameContainer gc, int i) throws SlickException {}
-
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException
-	{
+	public void update(GameContainer gc, int i) throws SlickException {
+		//Getting the key input
 		
-		if(tetrisPause == false){
+		if(input.isKeyDown(Input.KEY_LEFT) && keyTime.triggering()  == true){
+			current.rotate(blockMatrix);
+			keyTime.start();
+		}
+		
+		//Movement
 		if(timer.triggering() == true){
-			if(18 < current.positionY || checkLine() == false){
+			if(18 < current.positionY || checkLine() == false){  //Spawning a new block
 			current = new Block(typeOfNextBlock);
 			typeOfNextBlock = getRandomNumber.nextInt(7);
 			nextBlock = new Block(typeOfNextBlock);
 			}
-			else if(checkLine() == true){
-				
+			else if(checkLine() == true){ //Moving the current block one unit down
+				/*
 				for(int x = 0; x < 4; x++){
 					for(int y = 0; y < 4; y++){
 					blockMatrix[current.positionX+x][current.positionY+y] = false;
 					}
 				}
+				*/
 				
-				
+				lift(current, blockMatrix);
 				current.positionY += 1;
+				
 				
 				for(int x = 0; x < 4; x++){
 					for(int y = 0; y < 4; y++){
@@ -76,7 +88,19 @@ public class SimpleSlickGame extends BasicGame
 			}
 			timer.start();
 		}
+		
+		//Updating the matrix
+		
 		}
+
+	@Override
+	public void render(GameContainer gc, Graphics g) throws SlickException
+	{
+		
+		g.drawString("Rotation: "+current.rotationNumber, guiPanelX, guiPanelY+100);
+		
+		if(tetrisPause == false){
+		
 		
 			/*
 			g.drawString(current.form[0][0]+" "+current.form[0][1]+" "+current.form[0][2]+" "+current.form[0][3], 200, 200);
@@ -112,6 +136,9 @@ public class SimpleSlickGame extends BasicGame
 				}
 			}
 			g.setColor(new Color(255,255,255));
+		}
+			
+			
 			
 
 	}
@@ -166,6 +193,29 @@ public class SimpleSlickGame extends BasicGame
 		points =+ 10;
 		checkBottom();
 	}
+	}
+
+	//Functions for adding and removing the current shape to the block matrix
+	
+	public static void lift(Block tempCurrent, boolean tempBlockMatrix[][]){ //Removes the current block from the matrix
+		for(int x = 0; x < 4; x++){
+			for(int y = 0; y < 4; y++){
+				if(tempCurrent.form[x][y] == true){
+			tempBlockMatrix[tempCurrent.positionX+x][tempCurrent.positionY+y] = false;
+				}
+			}
+		}
+	}
+	
+	public void push(){ //Inserts the current block into the matrix
+		for(int x = 0; x < 4; x++){
+			for(int y = 0; y < 4; y++){
+				if(current.form[x][y] == true){
+			blockMatrix[current.positionX+x][current.positionY+y] = current.form[x][y];
+				}
+			}
+		}
+		
 	}
 
 	

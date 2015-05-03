@@ -3,10 +3,10 @@ package example;
 //A timer class that should be able to trigger a signal when a given amount of time has passed.
 
 public class Timer {
-	long msSeconds;
-	long startTime;
+	double msSeconds;
+	double startTime;
 	
-	Timer(int tempSeconds){
+	Timer(double tempSeconds){
 		msSeconds = tempSeconds * 1000; //Initializing the time value of the timer
 	}
 	

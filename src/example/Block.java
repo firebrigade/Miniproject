@@ -70,7 +70,7 @@ Block(int tempType){
 	}
 }
 
-void rotate(){
+void rotate(boolean tempMatrix[][]){
 	/*
 	boolean [] [] tempForm = new boolean [4][4];
 	for(int x = 0; x < 4; x++){
@@ -84,6 +84,7 @@ void rotate(){
 			form [x] [y] = tempForm[y] [x];
 		}	
 	*/
+	SimpleSlickGame.lift(this, tempMatrix);
 	rotationNumber++;
 	if(3 < rotationNumber){
 		rotationNumber = 0;
