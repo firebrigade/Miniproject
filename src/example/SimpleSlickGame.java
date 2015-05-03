@@ -53,10 +53,36 @@ public class SimpleSlickGame extends BasicGame
 	public void update(GameContainer gc, int i) throws SlickException {
 		//Getting the key input
 		
-		if(input.isKeyDown(Input.KEY_LEFT) && keyTime.triggering()  == true){
+		if(input.isKeyDown(Input.KEY_LEFT) && keyTime.triggering()  == true && 0 < current.positionX && checkLeft(false) == true){
+			lift(current, blockMatrix);
+			current.positionX--;
+			push(current, blockMatrix);
+			keyTime.start();
+		}
+		else if(input.isKeyDown(Input.KEY_LEFT) && keyTime.triggering()  == true && checkLeft(true) == true){
+			current.forceLeft(blockMatrix);
+		}
+			
+		if(input.isKeyDown(Input.KEY_RIGHT) && keyTime.triggering()  == true && current.positionX < 6){
+			lift(current, blockMatrix);
+			current.positionX++;
+			push(current, blockMatrix);
+			keyTime.start();
+		}
+		else if(input.isKeyDown(Input.KEY_RIGHT)&& keyTime.triggering()  == true){
+			current.forceRight(blockMatrix);
+		}
+		
+		if(input.isKeyDown(Input.KEY_SPACE) && keyTime.triggering()  == true){
 			current.rotate(blockMatrix);
 			keyTime.start();
 		}
+		
+		if(input.isKeyDown(Input.KEY_DOWN) && keyTime.triggering() == true){
+			timer.changeTimerTime(0.0001);
+			keyTime.start();
+		}
+		
 		
 		//Movement
 		if(timer.triggering() == true){
@@ -64,6 +90,7 @@ public class SimpleSlickGame extends BasicGame
 			current = new Block(typeOfNextBlock);
 			typeOfNextBlock = getRandomNumber.nextInt(7);
 			nextBlock = new Block(typeOfNextBlock);
+			timer.changeTimerTime(2);
 			}
 			else if(checkLine() == true){ //Moving the current block one unit down
 				/*
@@ -76,8 +103,8 @@ public class SimpleSlickGame extends BasicGame
 				
 				lift(current, blockMatrix);
 				current.positionY += 1;
-				
-				
+				push(current, blockMatrix);
+				/*
 				for(int x = 0; x < 4; x++){
 					for(int y = 0; y < 4; y++){
 						if(blockMatrix[current.positionX+x][current.positionY+y] == false){
@@ -85,6 +112,7 @@ public class SimpleSlickGame extends BasicGame
 						}
 					}
 				}
+				*/
 			}
 			timer.start();
 		}
@@ -112,7 +140,7 @@ public class SimpleSlickGame extends BasicGame
 		
 		//BACKGROUND
 		g.setColor(new Color(255,140,0));
-		g.fillRect(gamePositionX,gamePositionY, 110, 220);
+		g.fillRect(gamePositionX,gamePositionY+22, 110, 230);
 		g.setColor(new Color(255,255,255));
 		
 		
@@ -176,7 +204,28 @@ public class SimpleSlickGame extends BasicGame
 		}
 	}
 	
-	public void checkBottom(){
+	public boolean checkLeft(boolean force){ //Returns true if the shape has enough space to fit into the next line
+		boolean tempResult = true;
+		byte forceOrNot =1; 
+		if(force == true){
+			forceOrNot = 0;
+		}
+		for(int y = 0; y < 4; y++){
+			if(blockMatrix[current.positionX-forceOrNot][current.positionY+y] == true && current.form[0][y] == true){
+				tempResult = false;
+			}
+		}
+		
+		
+		if(tempResult == true){
+		return(true);
+		}
+		else{
+		return(false);
+		}
+	}
+	
+	public void checkFinishedLine(){
 	boolean tempResult = true;
 	for(int x=0; x<10; x++){
 		if(blockMatrix[x][20] == false){
@@ -191,7 +240,7 @@ public class SimpleSlickGame extends BasicGame
 			}
 		}
 		points =+ 10;
-		checkBottom();
+		checkFinishedLine();
 	}
 	}
 
@@ -207,16 +256,22 @@ public class SimpleSlickGame extends BasicGame
 		}
 	}
 	
-	public void push(){ //Inserts the current block into the matrix
+	public static void push(Block tempCurrent, boolean tempBlockMatrix[][]){ //Inserts the current block into the matrix
 		for(int x = 0; x < 4; x++){
 			for(int y = 0; y < 4; y++){
-				if(current.form[x][y] == true){
-			blockMatrix[current.positionX+x][current.positionY+y] = current.form[x][y];
+				if(tempCurrent.form[x][y] == true){
+			tempBlockMatrix[tempCurrent.positionX+x][tempCurrent.positionY+y] = tempCurrent.form[x][y];
 				}
 			}
 		}
 		
 	}
+	
+	public void moveLeft(){
+		
+	}
+	
+	
 
 	
 }

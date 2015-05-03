@@ -23,4 +23,8 @@ public class Timer {
 			return false;
 		}
 	}
+	
+	void changeTimerTime(double tempSeconds){
+		msSeconds = tempSeconds * 1000;
+	}
 }

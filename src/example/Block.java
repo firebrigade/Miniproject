@@ -315,10 +315,56 @@ void rotate(boolean tempMatrix[][]){
 	}
 	break;
 	}
-	
+	SimpleSlickGame.push(this, tempMatrix);
+}
+
+void forceLeft(boolean [][]tempBlockMatrix){
+	SimpleSlickGame.lift(this, tempBlockMatrix);
+	boolean rowFree = true;
+	for(int y = 0; y < 4; y++){
+		if(form[0][y] == true){
+		rowFree = false;
+		}
+		}
+	if(rowFree == true){
+		boolean [][] tempForm = form;
+		for(int x = 0; x < 3; x++){
+			for(int y = 0; y < 4; y++){
+			form[x][y] = tempForm [x+1][y];
+			}
+		}
+		for(int y = 0; y < 4; y++){
+		form[3][y] = false;
+		}
+		}
+	SimpleSlickGame.push(this, tempBlockMatrix);
+	}
+
+void forceRight(boolean [][]tempBlockMatrix){
+	SimpleSlickGame.lift(this, tempBlockMatrix);
+	boolean rowFree = true;
+	for(int y = 0; y < 4; y++){
+		if(form[3][y] == true){
+		rowFree = false;
+		}
+		}
+	if(rowFree == true){
+		boolean [][] tempForm = form;
+		for(int x = 0; x < 3; x++){
+			for(int y = 0; y < 4; y++){
+			form[x+1][y] = tempForm [x][y];
+			}
+		}
+		for(int y = 0; y < 4; y++){
+		form[0][y] = false;
+		}
+		}
+
+	SimpleSlickGame.push(this, tempBlockMatrix);
+	}
 }
 	
-}
+
 
 
 	
