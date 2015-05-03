@@ -353,12 +353,17 @@ void forceRight(boolean [][]tempBlockMatrix){
 		}
 	
 	if(rowFree == true){
+		for(int x = 0; x < 4; x++){
+			for(int y = 0; y < 4; y++){
+			tempForm[x][y] = form [x][y];
+			}
+		}
 		for(int y = 0; y < 4; y++){
 			form[0][y] = false;
 			}
-		for(int x = 1; x < 3; x++){
+		for(int x = 0; x < 3; x++){
 			for(int y = 0; y < 4; y++){
-			form[x][y] = tempForm [x-1][y];
+			form[x+1][y] = tempForm [x][y];
 			}
 		}
 		
