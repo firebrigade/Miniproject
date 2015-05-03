@@ -348,17 +348,19 @@ void forceRight(boolean [][]tempBlockMatrix){
 		rowFree = false;
 		}
 		}
+	
 	if(rowFree == true){
 		boolean [][] tempForm = form;
-		for(int x = 0; x < 3; x++){
+		/*for(int x = 1; x < 4; x++){
 			for(int y = 0; y < 4; y++){
-			form[x+1][y] = tempForm [x][y];
+			form[x][y] = tempForm [x-1][y];
 			}
 		}
 		for(int y = 0; y < 4; y++){
 		form[0][y] = false;
+		}*/
 		}
-		}
+		
 
 	SimpleSlickGame.push(this, tempBlockMatrix);
 	}

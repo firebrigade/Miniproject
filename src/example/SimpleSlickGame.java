@@ -61,6 +61,7 @@ public class SimpleSlickGame extends BasicGame
 		}
 		else if(input.isKeyDown(Input.KEY_LEFT) && keyTime.triggering()  == true && checkLeft(true) == true){
 			current.forceLeft(blockMatrix);
+			keyTime.start();
 		}
 			
 		if(input.isKeyDown(Input.KEY_RIGHT) && keyTime.triggering()  == true && current.positionX < 6){
@@ -71,6 +72,7 @@ public class SimpleSlickGame extends BasicGame
 		}
 		else if(input.isKeyDown(Input.KEY_RIGHT)&& keyTime.triggering()  == true){
 			current.forceRight(blockMatrix);
+			keyTime.start();
 		}
 		
 		if(input.isKeyDown(Input.KEY_SPACE) && keyTime.triggering()  == true){
@@ -125,7 +127,7 @@ public class SimpleSlickGame extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		
-		g.drawString("Rotation: "+current.rotationNumber, guiPanelX, guiPanelY+100);
+		g.drawString("positionX: "+current.positionX, guiPanelX, guiPanelY+100);
 		
 		if(tetrisPause == false){
 		
