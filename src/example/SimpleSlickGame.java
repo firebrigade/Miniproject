@@ -44,6 +44,7 @@ public class SimpleSlickGame extends BasicGame
 		typeOfNextBlock = getRandomNumber.nextInt(7);
 		nextBlock = new Block(typeOfNextBlock);
 		current = new Block(0);
+		current.forceLeft(blockMatrix);
 		
 		
 		
@@ -64,13 +65,13 @@ public class SimpleSlickGame extends BasicGame
 			keyTime.start();
 		}
 			
-		if(input.isKeyDown(Input.KEY_RIGHT) && keyTime.triggering()  == true && current.positionX < 6){
+		if(input.isKeyDown(Input.KEY_RIGHT) && keyTime.triggering()  == true && current.positionX < 6 && checkRight(false) == true){
 			lift(current, blockMatrix);
 			current.positionX++;
 			push(current, blockMatrix);
 			keyTime.start();
 		}
-		else if(input.isKeyDown(Input.KEY_RIGHT)&& keyTime.triggering()  == true){
+		else if(input.isKeyDown(Input.KEY_RIGHT)&& keyTime.triggering()  == true && checkRight(true) == true){
 			current.forceRight(blockMatrix);
 			keyTime.start();
 		}
@@ -86,6 +87,8 @@ public class SimpleSlickGame extends BasicGame
 		}
 		
 		
+		checkFinishedLine();
+		
 		//Movement
 		if(timer.triggering() == true){
 			if(18 < current.positionY || checkLine() == false){  //Spawning a new block
@@ -95,26 +98,9 @@ public class SimpleSlickGame extends BasicGame
 			timer.changeTimerTime(2);
 			}
 			else if(checkLine() == true){ //Moving the current block one unit down
-				/*
-				for(int x = 0; x < 4; x++){
-					for(int y = 0; y < 4; y++){
-					blockMatrix[current.positionX+x][current.positionY+y] = false;
-					}
-				}
-				*/
-				
 				lift(current, blockMatrix);
 				current.positionY += 1;
 				push(current, blockMatrix);
-				/*
-				for(int x = 0; x < 4; x++){
-					for(int y = 0; y < 4; y++){
-						if(blockMatrix[current.positionX+x][current.positionY+y] == false){
-					blockMatrix[current.positionX+x][current.positionY+y] = current.form[x][y];
-						}
-					}
-				}
-				*/
 			}
 			timer.start();
 		}
@@ -130,16 +116,7 @@ public class SimpleSlickGame extends BasicGame
 		g.drawString("positionX: "+current.positionX, guiPanelX, guiPanelY+100);
 		
 		if(tetrisPause == false){
-		
-		
-			/*
-			g.drawString(current.form[0][0]+" "+current.form[0][1]+" "+current.form[0][2]+" "+current.form[0][3], 200, 200);
-			g.drawString(current.form[1][0]+" "+current.form[1][1]+" "+current.form[1][2]+" "+current.form[1][3], 200, 250);
-			g.drawString(current.form[2][0]+" "+current.form[2][1]+" "+current.form[2][2]+" "+current.form[2][3], 200, 300);
-			g.drawString(current.form[3][0]+" "+current.form[3][1]+" "+current.form[3][2]+" "+current.form[3][3], 200, 350);
-			*/
-		
-		
+			
 		//BACKGROUND
 		g.setColor(new Color(255,140,0));
 		g.fillRect(gamePositionX,gamePositionY+22, 110, 230);
@@ -209,11 +186,36 @@ public class SimpleSlickGame extends BasicGame
 	public boolean checkLeft(boolean force){ //Returns true if the shape has enough space to fit into the next line
 		boolean tempResult = true;
 		byte forceOrNot =1; 
+		byte forceOrNot2 = 0;
 		if(force == true){
 			forceOrNot = 0;
+			forceOrNot2 = 1;
 		}
 		for(int y = 0; y < 4; y++){
-			if(blockMatrix[current.positionX-forceOrNot][current.positionY+y] == true && current.form[0][y] == true){
+			if(blockMatrix[current.positionX-forceOrNot][current.positionY+y] == true && current.form[forceOrNot2][y] == true){
+				tempResult = false;
+			}
+		}
+		
+		
+		if(tempResult == true){
+		return(true);
+		}
+		else{
+		return(false);
+		}
+	}
+	
+	public boolean checkRight(boolean force){ //Returns true if the shape has enough space to fit into the next line
+		boolean tempResult = true;
+		byte forceOrNot =1; 
+		byte forceOrNot2 = 3;
+		if(force == true){
+			forceOrNot = 0;
+			forceOrNot2 =2;
+		}
+		for(int y = 0; y < 4; y++){
+			if(blockMatrix[current.positionX+3+forceOrNot][current.positionY+y] == true && current.form[forceOrNot2][y] == true){
 				tempResult = false;
 			}
 		}
@@ -228,22 +230,27 @@ public class SimpleSlickGame extends BasicGame
 	}
 	
 	public void checkFinishedLine(){
-	boolean tempResult = true;
+	
+		for(int y=0; y<24; y++){
+		boolean tempResult = true;
 	for(int x=0; x<10; x++){
-		if(blockMatrix[x][20] == false){
+		if(blockMatrix[x][y] == false){
 			tempResult = false;
 		}
 	}
+	
 	if(tempResult == true){
 		boolean [][] temp = blockMatrix;
 		for(int x = 0; x<10; x++){
-			for(int y = 0; y < 24; y++){
-				blockMatrix[x][y+1]=temp[x][y];
+			for(int tempy = 0; tempy < y; tempy++){
+				blockMatrix[x][tempy+1]=temp[x][tempy];
 			}
 		}
-		points =+ 10;
+		points = points + 10;
 		checkFinishedLine();
 	}
+		}
+	
 	}
 
 	//Functions for adding and removing the current shape to the block matrix
