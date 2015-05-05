@@ -86,8 +86,8 @@ public class SimpleSlickGame extends BasicGame
 			keyTime.start();
 		}
 		
-		
 		checkFinishedLine();
+		checkGameOver();
 		
 		//Movement
 		if(timer.triggering() == true){
@@ -113,7 +113,7 @@ public class SimpleSlickGame extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		
-		g.drawString("positionX: "+current.positionX, guiPanelX, guiPanelY+100);
+		g.drawString(": "+current.positionY+checkLine(), guiPanelX, guiPanelY+100);
 		
 		if(tetrisPause == false){
 			
@@ -262,6 +262,16 @@ public class SimpleSlickGame extends BasicGame
 	
 	
 	}
+	
+	public boolean checkGameOver(){
+		boolean tempGameOver = false;
+		if(current.positionY < 1 && checkLine() == false){
+			tempGameOver = true;	
+			points = 0;
+			tetrisPause = true;
+		}
+		return tempGameOver;
+	}
 
 	//Functions for adding and removing the current shape to the block matrix
 	
@@ -286,9 +296,6 @@ public class SimpleSlickGame extends BasicGame
 		
 	}
 	
-	public void moveLeft(){
-		
-	}
 	
 	
 
