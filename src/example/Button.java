@@ -11,7 +11,7 @@ public class Button {
 	public Input input = new Input(480); //Gets input from the user
 	int sizeX = 200;
 	int sizeY = 50;
-	int posX = 295;
+	int posX = 240;
 	int posY;
 	Color buttonColor = new Color(0,200,100);
 	Color buttonColor2 = new Color(0,255,50);
@@ -51,6 +51,7 @@ public class Button {
 		else{
 		return false;
 		}
+		
 	}
 	
 

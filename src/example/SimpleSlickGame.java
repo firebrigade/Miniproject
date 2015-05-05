@@ -11,9 +11,11 @@ import org.newdawn.slick.Input;
 
 import java.util.Random;
 
+
 public class SimpleSlickGame extends BasicGame
 {
-	public boolean tetrisOver = false; //Checks if the game is over
+	
+	public boolean gameOver = true; //Checks if the game is over
 	public boolean [][] blockMatrix = new boolean [10][24]; //The main matrix, where all the block and the leftovers are placed
 	public int points = 0; //Point of the user
 	public int typeOfNextBlock = 0; //Describes the type of the new block
@@ -22,6 +24,7 @@ public class SimpleSlickGame extends BasicGame
 	public Block nextBlock = new Block(2); //Shows the type of the next block
 	public Timer timer = new Timer(2); //Timer that defines how fast should the blocks fall
 	public Timer keyTime = new Timer(0.5); //Timer that protects the users from doing multiple actions, because they held the button for too long
+	public Menu gameMenu = new Menu();
 	public int gamePositionX = 300; //Sets the game's horizontal position within the window
 	public int gamePositionY = 50;//Sets the game's vertical position within the window
 	public int guiPanelX = 500; ////Sets the GUI's horizontal position within the window
@@ -55,6 +58,20 @@ public class SimpleSlickGame extends BasicGame
 	@Override
 	public void update(GameContainer gc, int i) throws SlickException {
 		
+		if(gameMenu.menuButtons[0].isClicked() == true){
+			tetrisPause = false;
+		}
+		if(gameMenu.menuButtons[1].isClicked() == true){
+			points = 0;
+			for(int x = 0; x<10; x++){
+				for(int y = 0; y<24; y++){
+					blockMatrix[x][y] = false;
+				}
+			}
+		gameOver = false;
+		tetrisPause = false;
+		}
+		
 		//Getting the key input
 		//Moving the whole block to the left
 		if(input.isKeyDown(Input.KEY_LEFT) && keyTime.triggering()  == true && 0 < current.positionX && checkLeft(false) == true){
@@ -76,7 +93,7 @@ public class SimpleSlickGame extends BasicGame
 			push(current, blockMatrix);
 			keyTime.start();
 		}
-		//Force right is not working!
+		//Force right
 		else if(input.isKeyDown(Input.KEY_RIGHT)&& keyTime.triggering()  == true && checkRight(true) == true){
 			current.forceRight(blockMatrix);
 			keyTime.start();
@@ -121,9 +138,10 @@ public class SimpleSlickGame extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		
-		g.drawString(": "+current.positionY+checkLine(), guiPanelX, guiPanelY+100); //Used for debugging only
 		
-		if(tetrisPause == false){ //Only display the items if it's not paused
+		
+		if(tetrisPause == false && gameOver == false){ //Only display the items if it's not paused
+		
 			
 		//BACKGROUND
 		g.setColor(new Color(255,140,0));
@@ -155,6 +173,11 @@ public class SimpleSlickGame extends BasicGame
 			
 
 			
+		}
+		else{
+		gameMenu.update(tetrisPause, gameOver);	
+		gameMenu.getGraphics(g);
+		gameMenu.draw();	
 		}
 			
 			
@@ -284,7 +307,7 @@ public class SimpleSlickGame extends BasicGame
 		if(current.positionY < 1 && checkLine() == false){
 			tempGameOver = true;	
 			points = 0;
-			tetrisPause = true;
+			gameOver = true;
 		}
 		return tempGameOver;
 	}
