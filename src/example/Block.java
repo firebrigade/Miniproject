@@ -1,23 +1,27 @@
+//This class describes the blocks and their methods
+
 package example;
 
 
 public class Block {
-public boolean [][] form = new boolean [4][4];
-public short positionX = 3;
-public int positionY = 0;
-public int typeOfBlock = 0;
-public int rotationNumber = 0;
+public boolean [][] form = new boolean [4][4]; //Stores the shape of the block (represented in a 4 by 4 matrix
+public short positionX = 3; //The vertical position of the block inside the main canvas
+public int positionY = 0; //The horizontal position of the block inside the main canvas
+public int typeOfBlock = 0; //Defines the shape of the block
+public int rotationNumber = 0; //Sets the shape's rotation stage
 
 Block(int tempType){
 	rotationNumber = 0;
-	typeOfBlock = tempType;
+	typeOfBlock = tempType; //The type of the block will be selected by the main class
 	
+	//Clearing the shape
 	for(int x = 0; x<4; x++){
 		for(int y = 0; y<4; y++){
 		form [x][y] = false;
 	}
 	}
 	
+	//Setting up the shape
 	switch(tempType){
 	case 0: //Block 0 - I shape
 		form [0][3] = true;
@@ -70,32 +74,24 @@ Block(int tempType){
 	}
 }
 
-void rotate(boolean tempMatrix[][]){
-	/*
-	boolean [] [] tempForm = new boolean [4][4];
-	for(int x = 0; x < 4; x++){
-		for(int y = 0; y < 4; y++){
-	tempForm[x][y] = form [x][y];
-		}
-		}
-	for(int x = 0; x < 4; x++){
 
-		for(int y = 0; y < 4; y++){
-			form [x] [y] = tempForm[y] [x];
-		}	
-	*/
-	SimpleSlickGame.lift(this, tempMatrix);
-	rotationNumber++;
-	if(3 < rotationNumber){
-		rotationNumber = 0;
+//Rotating the form
+void rotate(boolean tempMatrix[][]){
+
+	
+	SimpleSlickGame.lift(this, tempMatrix); //Removes this block from the main matrix
+	rotationNumber++; //Changes the rotation number
+	if(3 < rotationNumber){ 
+		rotationNumber = 0; //Looping the rotation number
 	}
 	
-	for(int x = 0; x<4; x++){
+	for(int x = 0; x<4; x++){ //Clearing the current shape
 		for(int y = 0; y<4; y++){
 		form [x][y] = false;
 	}
 	}
 	
+	//Adding the new, modified shape
 	switch(typeOfBlock){
 	
 	case 0: //Block 0 - I shape - Done
@@ -315,11 +311,18 @@ void rotate(boolean tempMatrix[][]){
 	}
 	break;
 	}
-	SimpleSlickGame.push(this, tempMatrix);
+	SimpleSlickGame.push(this, tempMatrix); //Inserting the shape back into the main matrix
 }
 
+//Force functions 
+//- they are used if a block's shape (the 4 by 4 matrix) cannot go any further
+//without exiting the main matrix, but there's empty space on the side of the shape
+//so it can be transformed in order to fit
+
 void forceLeft(boolean [][]tempBlockMatrix){
-	SimpleSlickGame.lift(this, tempBlockMatrix);
+	SimpleSlickGame.lift(this, tempBlockMatrix); //Removes the current shape from the main matrix
+	
+	//Checking, if the left row of the shape is empty
 	boolean rowFree = true;
 	boolean [][] tempForm = form;
 	for(int y = 0; y < 4; y++){
@@ -328,6 +331,7 @@ void forceLeft(boolean [][]tempBlockMatrix){
 		}
 		}
 	
+	//Moves the content to the left. The row on the right will be set as empty
 	if(rowFree == true){
 		for(int y = 0; y < 4; y++){
 			form[3][y] = false;
@@ -339,11 +343,13 @@ void forceLeft(boolean [][]tempBlockMatrix){
 		}
 		
 		}
-	SimpleSlickGame.push(this, tempBlockMatrix);
+	SimpleSlickGame.push(this, tempBlockMatrix); //Inserts the shape back into the main matrix
 	}
 
-void forceRight(boolean [][]tempBlockMatrix){
-	SimpleSlickGame.lift(this, tempBlockMatrix);
+void forceRight(boolean [][]tempBlockMatrix){ //NOT WORKING!
+	SimpleSlickGame.lift(this, tempBlockMatrix); //Removes the current shape from the main matrix
+	
+	//Checking, if the left row of the shape is empty
 	boolean rowFree = true;
 	boolean [][] tempForm = form;
 	for(int y = 0; y < 4; y++){
@@ -352,6 +358,7 @@ void forceRight(boolean [][]tempBlockMatrix){
 		}
 		}
 	
+	//Moves the content to the right. The row on the left will be set as empty
 	if(rowFree == true){
 		for(int x = 0; x < 4; x++){
 			for(int y = 0; y < 4; y++){
@@ -368,7 +375,7 @@ void forceRight(boolean [][]tempBlockMatrix){
 		}
 		
 		}
-	SimpleSlickGame.push(this, tempBlockMatrix);
+	SimpleSlickGame.push(this, tempBlockMatrix); //Inserts the shape back into the main matrix
 	
 	}
 }

@@ -2,6 +2,7 @@ package example;
 
 import java.util.Scanner;
 
+//NOT USED YET
 public class Controls {
 	
 	char rotation = 'r'; 
