@@ -5,6 +5,7 @@ package example;
 
 public class Block {
 public boolean [][] form = new boolean [4][4]; //Stores the shape of the block (represented in a 4 by 4 matrix
+boolean [][] tempForm = form;
 public short positionX = 3; //The vertical position of the block inside the main canvas
 public int positionY = 0; //The horizontal position of the block inside the main canvas
 public int typeOfBlock = 0; //Defines the shape of the block
@@ -351,7 +352,7 @@ void forceRight(boolean [][]tempBlockMatrix){ //NOT WORKING!
 	
 	//Checking, if the left row of the shape is empty
 	boolean rowFree = true;
-	boolean [][] tempForm = form;
+	
 	for(int y = 0; y < 4; y++){
 		if(form[3][y] == true){
 		rowFree = false;
@@ -360,19 +361,24 @@ void forceRight(boolean [][]tempBlockMatrix){ //NOT WORKING!
 	
 	//Moves the content to the right. The row on the left will be set as empty
 	if(rowFree == true){
-		for(int x = 0; x < 4; x++){
+		
 			for(int y = 0; y < 4; y++){
-			tempForm[x][y] = form [x][y];
+			tempForm[0][y] = form [0][y];
+			tempForm[1][y] = form [1][y];
+			tempForm[2][y] = form [2][y];
+			tempForm[3][y] = form [3][y];
 			}
-		}
+		
 		for(int y = 0; y < 4; y++){
 			form[0][y] = false;
 			}
-		for(int x = 0; x < 3; x++){
+		
 			for(int y = 0; y < 4; y++){
-			form[x+1][y] = tempForm [x][y];
+			form[3][y] = tempForm [2][y];
+			form[2][y] = tempForm [1][y];
+			form[1][y] = tempForm [0][y];
 			}
-		}
+		
 		
 		}
 	SimpleSlickGame.push(this, tempBlockMatrix); //Inserts the shape back into the main matrix
