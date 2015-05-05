@@ -152,6 +152,9 @@ public class SimpleSlickGame extends BasicGame
 				}
 			}
 			g.setColor(new Color(255,255,255));
+			
+
+			
 		}
 			
 			
