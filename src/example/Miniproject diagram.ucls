@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="example.Timer" project="Miniproject2" file="/Miniproject2/src/example/Timer.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="188" width="197" x="353" y="822"/>    
+    <position height="-1" width="-1" x="133" y="658"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -64,6 +64,8 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="12">    
+    <bendpoint x="328" y="377"/>    
+    <bendpoint x="243" y="376"/>    
     <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="13" name="nextBlock"/>      
       <multiplicity id="14" minimum="0" maximum="1"/>    
@@ -101,7 +103,6 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="25">    
-    <bendpoint x="341" y="540"/>    
     <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="26" name="timer"/>      
       <multiplicity id="27" minimum="0" maximum="1"/>    
