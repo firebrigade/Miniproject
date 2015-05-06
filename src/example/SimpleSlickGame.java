@@ -154,7 +154,7 @@ public class SimpleSlickGame extends BasicGame
 		
 		
 		if(tetrisPause == false && gameOver == false){ //Only display the items if it's not paused
-		
+			
 			
 		//BACKGROUND
 		g.setColor(new Color(255,140,0));
@@ -188,6 +188,8 @@ public class SimpleSlickGame extends BasicGame
 			
 		}
 		else{
+			g.setColor(new Color(255,255,255));
+			g.drawString("TETRIS", 310, 50);
 		gameMenu.update(tetrisPause, gameOver);	
 		gameMenu.getGraphics(g);
 		gameMenu.draw();
