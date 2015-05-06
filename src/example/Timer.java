@@ -27,4 +27,8 @@ public class Timer {
 	void changeTimerTime(double tempSeconds){ //Changing the timer's duration (used when dropping the block)
 		msSeconds = tempSeconds * 1000;
 	}
+	
+	void pause(){
+		msSeconds += 100;
+	}
 }

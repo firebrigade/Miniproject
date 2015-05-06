@@ -7,7 +7,7 @@ import org.newdawn.slick.Input;
 public class Menu {
 	public Input input = new Input(480); //Gets input from the user
  String [] menuPoints = {"Resume Game", "New Game", "Quit"};
- int activeMenu = 0;
+ int activeMenu = 1;
  int menuY = 100;
  Graphics g;
  Timer keyTime = new Timer(0.5);
@@ -21,7 +21,7 @@ public class Menu {
 }
 	
 	void update(boolean tempPause, boolean gameOver){
-		if(tempPause == true){
+		if(gameOver == true){
 			menuButtons[0].selectable = false;
 		}
 		else{

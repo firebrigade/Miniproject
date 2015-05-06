@@ -25,11 +25,12 @@ public class SimpleSlickGame extends BasicGame
 	public Timer timer = new Timer(2); //Timer that defines how fast should the blocks fall
 	public Timer keyTime = new Timer(0.5); //Timer that protects the users from doing multiple actions, because they held the button for too long
 	public Menu gameMenu = new Menu();
-	public int gamePositionX = 300; //Sets the game's horizontal position within the window
-	public int gamePositionY = 50;//Sets the game's vertical position within the window
-	public int guiPanelX = 500; ////Sets the GUI's horizontal position within the window
-	public int guiPanelY = 15; //Sets the GUI's vertical position within the window
+	public int gamePositionX = 250; //Sets the game's horizontal position within the window
+	public int gamePositionY = 60;//Sets the game's vertical position within the window
+	public int guiPanelX = 400; ////Sets the GUI's horizontal position within the window
+	public int guiPanelY = 80; //Sets the GUI's vertical position within the window
 	public Random getRandomNumber = new Random(); //Will be used to generate a random number
+	public boolean goText = false;
 	
 	public Input input = new Input(480); //Gets input from the user
 	
@@ -60,16 +61,23 @@ public class SimpleSlickGame extends BasicGame
 		
 		if(gameMenu.menuButtons[0].isClicked() == true){
 			tetrisPause = false;
+			timer.changeTimerTime(2);
 		}
 		if(gameMenu.menuButtons[1].isClicked() == true){
 			points = 0;
+			goText = false;
 			for(int x = 0; x<10; x++){
 				for(int y = 0; y<24; y++){
 					blockMatrix[x][y] = false;
 				}
 			}
+			
 		gameOver = false;
 		tetrisPause = false;
+		timer.changeTimerTime(2);
+		}
+		if(gameMenu.menuButtons[2].isClicked() == true){
+			System.exit(0);
 		}
 		
 		//Getting the key input
@@ -108,6 +116,11 @@ public class SimpleSlickGame extends BasicGame
 		//Dropping the item, to make the game quicker
 		if(input.isKeyDown(Input.KEY_DOWN) && keyTime.triggering() == true){
 			timer.changeTimerTime(0.0001); //Changes the speed of the game, so the block will fall faster
+			keyTime.start();
+		}
+		
+		if(input.isKeyDown(Input.KEY_ESCAPE) && keyTime.triggering() == true){
+			tetrisPause = true;
 			keyTime.start();
 		}
 		
@@ -156,7 +169,7 @@ public class SimpleSlickGame extends BasicGame
 					}
 				}
 			}
-			g.setColor(new Color(255,140,0));
+			g.setColor(new Color(155,155,155));
 			
 			//GUI PANEL
 			g.drawString("Points: "+points, guiPanelX, guiPanelY);
@@ -177,7 +190,12 @@ public class SimpleSlickGame extends BasicGame
 		else{
 		gameMenu.update(tetrisPause, gameOver);	
 		gameMenu.getGraphics(g);
-		gameMenu.draw();	
+		gameMenu.draw();
+		timer.pause();
+		g.drawString("Your points: "+points, gameMenu.menuButtons[2].posX+30, gameMenu.menuButtons[2].posY+gameMenu.menuButtons[2].sizeY+100);
+		if(goText == true){
+			g.drawString("GAME OVER!", gameMenu.menuButtons[2].posX+30, gameMenu.menuButtons[2].posY+gameMenu.menuButtons[2].sizeY+50);
+		}
 		}
 			
 			
@@ -305,9 +323,9 @@ public class SimpleSlickGame extends BasicGame
 	public boolean checkGameOver(){
 		boolean tempGameOver = false;
 		if(current.positionY < 1 && checkLine() == false){
-			tempGameOver = true;	
-			points = 0;
+			tempGameOver = true;
 			gameOver = true;
+			goText = true;
 		}
 		return tempGameOver;
 	}
