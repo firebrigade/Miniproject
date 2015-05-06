@@ -22,7 +22,8 @@ public class SimpleSlickGame extends BasicGame
 	public boolean tetrisPause = false; //Describes if the game is paused
 	public Block current = new Block(2); //The current block
 	public Block nextBlock = new Block(2); //Shows the type of the next block
-	public Timer timer = new Timer(2); //Timer that defines how fast should the blocks fall
+	public double difficulty = 2;
+	public Timer timer = new Timer(difficulty); //Timer that defines how fast should the blocks fall
 	public Timer keyTime = new Timer(0.5); //Timer that protects the users from doing multiple actions, because they held the button for too long
 	public Menu gameMenu = new Menu();
 	public int gamePositionX = 250; //Sets the game's horizontal position within the window
@@ -31,6 +32,7 @@ public class SimpleSlickGame extends BasicGame
 	public int guiPanelY = 80; //Sets the GUI's vertical position within the window
 	public Random getRandomNumber = new Random(); //Will be used to generate a random number
 	public boolean goText = false;
+	
 	
 	public Input input = new Input(480); //Gets input from the user
 	
@@ -58,10 +60,14 @@ public class SimpleSlickGame extends BasicGame
 	//Handling the main sequence of the game
 	@Override
 	public void update(GameContainer gc, int i) throws SlickException {
+		difficulty = 2 - (points/100);
+		if(difficulty < 0.4){
+			difficulty = 0.4;
+		}
 		
 		if(gameMenu.menuButtons[0].isClicked() == true){
 			tetrisPause = false;
-			timer.changeTimerTime(2);
+			timer.changeTimerTime(difficulty);
 		}
 		if(gameMenu.menuButtons[1].isClicked() == true){
 			points = 0;
@@ -74,7 +80,8 @@ public class SimpleSlickGame extends BasicGame
 			
 		gameOver = false;
 		tetrisPause = false;
-		timer.changeTimerTime(2);
+		difficulty = 2;
+		timer.changeTimerTime(difficulty);
 		}
 		if(gameMenu.menuButtons[2].isClicked() == true){
 			System.exit(0);
@@ -133,7 +140,7 @@ public class SimpleSlickGame extends BasicGame
 			current = new Block(typeOfNextBlock); //The current block equals the next block
 			typeOfNextBlock = getRandomNumber.nextInt(7); //The next block gets a new random value
 			nextBlock = new Block(typeOfNextBlock); //The next block is being initialized
-			timer.changeTimerTime(2); //The timer sets back to normal (in case it was adjusted by the drop function)
+			timer.changeTimerTime(difficulty); //The timer sets back to normal (in case it was adjusted by the drop function)
 			}
 			else if(checkLine() == true){ //Moving the current block one unit down, if it didn't collide
 				lift(current, blockMatrix);
