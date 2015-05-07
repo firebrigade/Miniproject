@@ -9,12 +9,12 @@ import org.newdawn.slick.Color;
 public class Button {
 	
 	public Input input = new Input(480); //Gets input from the user
-	int sizeX = 200;
+	int sizeX = 200;   //size of the button
 	int sizeY = 50;
-	int posX = 240;
+	int posX = 240;    // position of button 
 	int posY;
-	Color buttonColor = new Color(0,200,100);
-	Color buttonColor2 = new Color(0,255,50);
+	Color buttonColor = new Color(0,200,100);  //three different colors to the buttons - buttonColor,2,3
+	Color buttonColor2 = new Color(0,255,50);   // these are also the different states of the game, normal, selected, inactive
 	Color buttonColor3 = new Color(150,150,150);
 	String label;
 	boolean selectable = true;
@@ -28,7 +28,7 @@ public class Button {
 	
 	void draw(Graphics g){
 		
-			if(selectable == true && isSelected == false){
+			if(selectable == true && isSelected == false){   //the default color
 				g.setColor(buttonColor);
 			}
 			else if(selectable == true && isSelected == true){
@@ -38,7 +38,7 @@ public class Button {
 				g.setColor(buttonColor3);
 			}
 				
-				g.fillRect(posX, posY, sizeX, sizeY);
+				g.fillRect(posX, posY, sizeX, sizeY); // 
 				g.setColor(new Color(255,255,255));
 				g.drawString(label, posX+10, posY+10);
 			
