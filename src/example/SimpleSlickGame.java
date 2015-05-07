@@ -22,10 +22,10 @@ public class SimpleSlickGame extends BasicGame
 	public boolean tetrisPause = false; //Describes if the game is paused
 	public Block current = new Block(2); //The current block
 	public Block nextBlock = new Block(2); //Shows the type of the next block
-	public double difficulty = 2;
+	public double difficulty = 2; //Sets the difficulty of the game (the lower the number, the faster the game)
 	public Timer timer = new Timer(difficulty); //Timer that defines how fast should the blocks fall
 	public Timer keyTime = new Timer(0.5); //Timer that protects the users from doing multiple actions, because they held the button for too long
-	public Menu gameMenu = new Menu();
+	public Menu gameMenu = new Menu(); //The menu of the game
 	public int gamePositionX = 250; //Sets the game's horizontal position within the window
 	public int gamePositionY = 60;//Sets the game's vertical position within the window
 	public int guiPanelX = 400; ////Sets the GUI's horizontal position within the window
@@ -50,7 +50,7 @@ public class SimpleSlickGame extends BasicGame
 		keyTime.start(); //The user will be able to access the controls after 0.5 seconds
 		typeOfNextBlock = getRandomNumber.nextInt(7); //Generates a random type for the next block
 		nextBlock = new Block(typeOfNextBlock); //Generates the next block
-		current = new Block(0); //USED FOR TESTING ONLY - the first block will always be an I shape
+		current = new Block(0); //The first block will always be an I shape
 		
 		
 		
@@ -60,30 +60,35 @@ public class SimpleSlickGame extends BasicGame
 	//Handling the main sequence of the game
 	@Override
 	public void update(GameContainer gc, int i) throws SlickException {
+		
+		//Increasing the speed for each point that the user achieves (maximized in 0.4 sec/move)
 		difficulty = 2 - (points/100);
 		if(difficulty < 0.4){
 			difficulty = 0.4;
 		}
 		
-		if(gameMenu.menuButtons[0].isClicked() == true){
+		//Checking the input from the menu buttons
+		if(gameMenu.menuButtons[0].isClicked() == true){	//Resumes the game
 			tetrisPause = false;
 			timer.changeTimerTime(difficulty);
 		}
-		if(gameMenu.menuButtons[1].isClicked() == true){
+		if(gameMenu.menuButtons[1].isClicked() == true){ 	//Starts a new game
 			points = 0;
 			goText = false;
+			//Clearing the main matrix
+			
 			for(int x = 0; x<10; x++){
 				for(int y = 0; y<24; y++){
 					blockMatrix[x][y] = false;
 				}
 			}
-			
+		//Reseting the variables for the new game
 		gameOver = false;
 		tetrisPause = false;
 		difficulty = 2;
 		timer.changeTimerTime(difficulty);
 		}
-		if(gameMenu.menuButtons[2].isClicked() == true){
+		if(gameMenu.menuButtons[2].isClicked() == true){ //Quit the game
 			System.exit(0);
 		}
 		
@@ -195,12 +200,16 @@ public class SimpleSlickGame extends BasicGame
 			
 		}
 		else{
+			
+			//Drawing menu elements
 			g.setColor(new Color(255,255,255));
 			g.drawString("TETRIS", 310, 50);
-		gameMenu.update(tetrisPause, gameOver);	
+		gameMenu.update(tetrisPause, gameOver);	//Updating the menu functions
 		gameMenu.getGraphics(g);
 		gameMenu.draw();
-		timer.pause();
+		timer.pause(); //Pausing the game
+		
+		//Writing out the points and if the game is over
 		g.drawString("Your points: "+points, gameMenu.menuButtons[2].posX+30, gameMenu.menuButtons[2].posY+gameMenu.menuButtons[2].sizeY+100);
 		if(goText == true){
 			g.drawString("GAME OVER!", gameMenu.menuButtons[2].posX+30, gameMenu.menuButtons[2].posY+gameMenu.menuButtons[2].sizeY+50);
