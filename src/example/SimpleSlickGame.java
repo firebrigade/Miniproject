@@ -227,7 +227,7 @@ public class SimpleSlickGame extends BasicGame
 		}
 	}
 	
-	//Custom functions
+	//Custom methods
 	
 	//Checking if the line below the current shape is free
 	public boolean checkLine(){ //Returns true if the shape has enough space to fit into the next line
